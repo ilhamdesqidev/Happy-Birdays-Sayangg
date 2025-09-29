@@ -459,7 +459,7 @@
       transform: scale(1.1);
     }
 
-    /* Video Page */
+    /* Video Page - Portrait Mode */
     .video-refined {
       max-width: 800px;
       text-align: center;
@@ -468,13 +468,16 @@
     .video-container {
       position: relative;
       width: 100%;
-      aspect-ratio: 16/9;
+      aspect-ratio: 9/16; /* Changed from 16/9 to 9/16 for portrait */
       border-radius: 15px;
       overflow: hidden;
       margin: 2.5rem 0;
       background: var(--white);
       box-shadow: var(--shadow-soft);
       border: 1px solid var(--light-gray);
+      max-width: 400px; /* Added max-width for better portrait display */
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .video-overlay {
@@ -521,6 +524,7 @@
       width: 100%;
       height: 100%;
       border-radius: 13px;
+      object-fit: cover; /* Added to ensure video fills portrait container */
     }
 
     /* Message Page */
@@ -674,6 +678,12 @@
         height: 40px;
         font-size: 1.2rem;
       }
+
+      /* Mobile optimization for portrait video */
+      .video-container {
+        max-width: 320px;
+        aspect-ratio: 9/16;
+      }
     }
 
     /* Elegant Scrollbar */
@@ -799,10 +809,10 @@
             <button class="play-elegant">
               <i class="fas fa-play"></i>
             </button>
-            <p style="font-size: 1.1rem; color: var(--soft-gray); margin: 0;">Klik untuk melihat foto</p>
+            <p style="font-size: 1.1rem; color: var(--soft-gray); margin: 0;">Klik untuk melihat video</p>
           </div>
           <video id="birthdayVideo" controls style="display: none;">
-            <source src="birthday-video.mp4" type="video/mp4">
+            <source src="sayangf.mp4" type="video/mp4">
             Video not supported
           </video>
         </div>
@@ -1364,42 +1374,6 @@
         showNotification('Welcome! Click on memories to reveal photos 🎉');
       }, 2000);
     });
-
-    // Touch/Swipe Support for Mobile
-    let touchStartX = 0;
-    let touchEndX = 0;
-
-    document.addEventListener('touchstart', e => {
-      // Don't handle swipes when modal is open
-      if (document.getElementById('photoModal').classList.contains('active')) {
-        return;
-      }
-      touchStartX = e.changedTouches[0].screenX;
-    });
-
-    document.addEventListener('touchend', e => {
-      // Don't handle swipes when modal is open
-      if (document.getElementById('photoModal').classList.contains('active')) {
-        return;
-      }
-      touchEndX = e.changedTouches[0].screenX;
-      handleSwipe();
-    });
-
-    function handleSwipe() {
-      const swipeThreshold = 50;
-      const diff = touchStartX - touchEndX;
-      
-      if (Math.abs(diff) > swipeThreshold) {
-        if (diff > 0 && currentPage < 4) {
-          // Swipe left - next page
-          navigateToPage(currentPage + 1);
-        } else if (diff < 0 && currentPage > 1) {
-          // Swipe right - previous page
-          navigateToPage(currentPage - 1);
-        }
-      }
-    }
 
     // Prevent context menu on long press (mobile)
     document.addEventListener('contextmenu', e => e.preventDefault());
